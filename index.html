@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#080d18">
+  <title>NEXCORE OPERATOR V1</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">N</div><div><b>NEXCORE</b><span>OPERATOR / V1</span></div></div>
+      <div class="side-label">ESPACE DE TRAVAIL</div>
+      <button class="nav active" data-tab="mission"><span>⌘</span> Nouvelle mission</button>
+      <button class="nav" data-tab="history"><span>◷</span> Historique</button>
+      <div class="side-bottom">
+        <div class="secure"><i></i><div><b>Environnement protégé</b><small>Clé d'accès locale</small></div></div>
+        <button id="settingsBtn" class="settings">⚙ Paramètres & connexion</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div><span class="eyebrow">AGENT DE NAVIGATION WEB</span><h1 id="pageTitle">Nouvelle mission</h1></div>
+        <div class="top-right"><span class="status"><i></i> Browser Run</span><span class="version">V1.0.0</span></div>
+      </header>
+
+      <section id="missionTab" class="tab-content">
+        <div class="hero">
+          <div class="hero-copy">
+            <div class="pill">● PRÊT À OPÉRER</div>
+            <h2>Tu demandes.<br><em>Elle navigue. Elle agit.</em></h2>
+            <p>Décris une tâche web. NEXCORE prépare un plan, utilise un navigateur distant et te restitue ce qu'il a trouvé.</p>
+          </div>
+          <div class="orb"><div class="orb-core">N</div><div class="orb-ring ring1"></div><div class="orb-ring ring2"></div></div>
+        </div>
+
+        <div class="workspace-grid">
+          <section class="panel command-panel">
+            <div class="panel-head"><div><span class="step">01</span><b>Console de mission</b></div><span class="muted">Commande en langage naturel</span></div>
+            <label for="command">QUE DOIT FAIRE NEXCORE ?</label>
+            <textarea id="command" rows="3" placeholder="Ex. : Recherche NEXCORE sur Google&#10;Ex. : Ouvre https://example.com et observe la page"></textarea>
+            <div class="quick-actions">
+              <button class="chip" data-command="Recherche NEXCORE sur Google">⌕ Recherche Google</button>
+              <button class="chip" data-command="Ouvre https://example.com et observe la page">↗ Ouvrir un site</button>
+              <button class="chip" data-action="observe">◉ Observer la page</button>
+            </div>
+            <button id="runMission" class="primary">Lancer la mission <span>→</span></button>
+            <div class="divider"></div>
+            <div class="panel-head"><div><span class="step">02</span><b>Actions guidées</b></div><span class="muted">Contrôle précis</span></div>
+            <div class="guided">
+              <div><label>URL À OUVRIR</label><input id="urlInput" type="url" placeholder="https://example.com"></div>
+              <button id="navigateBtn" class="secondary">Naviguer</button>
+              <div><label>RECHERCHE</label><input id="searchInput" placeholder="Mots-clés à rechercher"></div>
+              <button id="searchBtn" class="secondary">Rechercher</button>
+              <div><label>TEXTE DU LIEN / BOUTON</label><input id="clickInput" placeholder="Ex. Documentation"></div>
+              <button id="clickBtn" class="secondary">Cliquer</button>
+            </div>
+            <div class="divider"></div>
+            <div class="panel-head"><div><span class="step">03</span><b>Remplir un formulaire</b></div><span class="muted">Sans envoi automatique</span></div>
+            <p class="hint">Ouvre d'abord la page, puis indique les champs à remplir en JSON. Les clés doivent correspondre au nom, à l'ID, au libellé ou au placeholder des champs.</p>
+            <textarea id="fieldsInput" rows="4" spellcheck="false">{ 
+  "name": "Ada Lovelace",
+  "email": "ada@example.com"
+}</textarea>
+            <button id="fillBtn" class="secondary full">Préparer le formulaire</button>
+            <div class="safety-note"><span>◆</span> NEXCORE prépare les champs. L'envoi reste bloqué jusqu'à ta confirmation explicite.</div>
+          </section>
+
+          <section class="panel output-panel">
+            <div class="panel-head"><div><span class="step">LIVE</span><b>Résultat de navigation</b></div><span id="runState" class="muted">En attente</span></div>
+            <div id="emptyState" class="empty">
+              <div class="empty-icon">⌘</div><b>Aucune mission en cours</b>
+              <p>Les étapes, observations et résultats apparaîtront ici.</p>
+            </div>
+            <div id="result" class="result hidden"></div>
+            <div id="confirmation" class="confirmation hidden">
+              <div><b>Confirmation requise</b><p>Vérifie les champs préparés. Confirme uniquement si les informations et le site sont corrects.</p></div>
+              <button id="confirmSubmit" class="danger">Confirmer l'envoi</button>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="historyTab" class="tab-content hidden">
+        <div class="panel history-panel"><div class="panel-head"><div><span class="step">LOG</span><b>Historique des missions</b></div><button id="refreshHistory" class="secondary">Actualiser</button></div><div id="historyList" class="history-list">Chargement...</div></div>
+      </section>
+
+      <footer><span>NEXCORE OPERATOR V1</span><span>Indépendant de NEXCORE CORE · Sécurité avant exécution</span></footer>
+    </main>
+  </div>
+
+  <div id="keyModal" class="modal hidden">
+    <div class="modal-card">
+      <button id="closeModal" class="modal-close">×</button>
+      <span class="eyebrow">CONFIGURATION SÉCURISÉE</span>
+      <h2>Connexion à NEXCORE</h2>
+      <p>Colle la clé d'accès définie avec <code>wrangler secret put OPERATOR_ACCESS_KEY</code>. Elle reste dans la session de ce navigateur et n'est pas affichée dans l'historique.</p>
+      <input id="accessKey" type="password" placeholder="Clé d'accès" autocomplete="off">
+      <button id="saveKey" class="primary full">Enregistrer la clé</button>
+      <div id="keyStatus" class="hint"></div>
+    </div>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>
